@@ -1,0 +1,63 @@
+### Python Exercise: Handling POST Requests in Flask
+
+**Objective**: Create a Flask application that handles POST requests to receive data, process it, and return a response based on the input. This exercise will help you understand how to manage incoming data via POST requests in a web application.
+
+#### Requirements:
+- Python
+- Flask (`pip install flask`)
+- Postman or any other tool to send HTTP requests
+
+#### Steps to Set Up Your Flask App:
+
+1. **Project Setup**:
+   Create a new directory for your project and navigate into it. Create a Python file named `app.py`.
+
+2. **Write Flask Code**:
+   In `app.py`, write the following Python code to handle POST requests:
+
+```python
+from flask import Flask, request, jsonify
+
+app = Flask(__name__)
+
+@app.route('/multiply', methods=['POST'])
+def multiply():
+    # Check if the request contains JSON data
+    if request.is_json:
+        # Parse the JSON data
+        data = request.get_json()
+        # Multiply the numbers
+        result = data['number1'] * data['number2']
+        return jsonify({"result": result}), 200
+    else:
+        return jsonify({"error": "Request must be JSON"}), 400
+
+if __name__ == '__main__':
+    app.run(debug=True)
+```
+
+This Flask application includes a route `/multiply` that expects a POST request with JSON content containing two numbers. It multiplies these numbers and returns the result in a JSON response.
+
+#### Testing with Postman:
+
+1. **Launch Postman**: Open Postman on your computer.
+2. **Create a New POST Request**:
+   - Set up a new request by clicking on "New" or "+" tab.
+   - Change the HTTP method to `POST`.
+   - Enter the URL for your route: `http://127.0.0.1:5000/multiply`
+   - Under "Headers", set `Content-Type` as `application/json`.
+   - In the "Body" section, switch to raw JSON and input the two numbers:
+     ```json
+     {
+         "number1": 10,
+         "number2": 5
+     }
+     ```
+   - Hit "Send".
+3. **View the Response**: After sending the request, you should see the response in the body section of Postman with the result of the multiplication, e.g., `{"result": 50}`.
+
+### Explanation:
+
+Handling POST requests in Flask is essential for any web application that expects to receive data from users or other systems. By using JSON for sending and receiving data, you can ensure that the data is easily parsable and maintainable. This pattern is widely used in RESTful APIs and services that interact with mobile applications, front-end frameworks, or other backend systems.
+
+This exercise not only reinforces the usage of Flask and Python but also introduces practical skills in handling web-based forms or API data. It’s an excellent way to start building backend logic for more complex applications.
